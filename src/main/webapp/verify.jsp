@@ -92,8 +92,7 @@
     <%
         if (request.getAttribute("message") != null) {
     %>
-    const messages = '<%= request.getAttribute("message") %>';
-    alert(messages);
+    alert('<%= request.getAttribute("message") %>');
     <% } %>
 </script>
 

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.github.erfan_davoodi_nasr_hw10_maktab117.util.Help.requestDispatcher;
 import static com.github.erfan_davoodi_nasr_hw10_maktab117.util.ValidatorProvider.getValidator;
 
 @WebServlet("/login")
@@ -33,11 +34,19 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("firstName", user.getFirstname());
             session.setAttribute("lastName", user.getLastName());
             session.setAttribute("phoneNumber", user.getPhoneNumber());
-            req.setAttribute("message", "user successfully logged in");
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            requestDispatcher(
+                    "/index.jsp",
+                    "message",
+                    "user successfully logged in",
+                    req,
+                    resp);
         } else {
-            req.setAttribute("message", "you entered wrong code");
-            req.getRequestDispatcher("/verify.jsp").forward(req, resp);
+            requestDispatcher(
+                    "/verify.jsp",
+                    "message",
+                    "you entered wrong code",
+                    req,
+                    resp);
         }
     }
 
@@ -50,19 +59,30 @@ public class LoginServlet extends HttpServlet {
         if (problems.isEmpty()) {
             user = ApplicationContext.getUserService().findByPhoneNumber(userRequest);
             if (user == null) {
-                req.setAttribute("message", "user not found");
-                req.getRequestDispatcher("/signup.jsp").forward(req, resp);
+                requestDispatcher(
+                        "/signup.jsp",
+                        "message",
+                        "user not found",
+                        req,
+                        resp);
             } else {
                 results = SMS.sendSms(user.getPhoneNumber());
-//                results = new String[]{"1234","200"};
                 HttpSession session = req.getSession();
                 session.setAttribute("authCode", results[0]);
-                req.setAttribute("message", "sms successfully received: " + results[0]);
-                req.getRequestDispatcher("/verify.jsp").forward(req, resp);
+                requestDispatcher(
+                        "/verify.jsp",
+                        "message",
+                        "sms successfully received: " + results[0],
+                        req,
+                        resp);
             }
         } else {
-            req.setAttribute("message", problems);
-            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+            requestDispatcher(
+                    "/login.jsp",
+                    "message",
+                    problems,
+                    req,
+                    resp);
         }
     }
 
@@ -78,7 +98,6 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String[] results = null;
         String action = req.getParameter("action");
         if ("sendCode".equals(action)) {
             sendCodeAction(req, resp);
@@ -88,5 +107,4 @@ public class LoginServlet extends HttpServlet {
             req.setAttribute("message", "bad request");
         }
     }
-
 }

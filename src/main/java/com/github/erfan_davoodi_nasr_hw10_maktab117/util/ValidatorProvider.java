@@ -16,6 +16,5 @@ public class ValidatorProvider {
         }
 
         return validatorFactory.getValidator();
-
     }
 }

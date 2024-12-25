@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.github.erfan_davoodi_nasr_hw10_maktab117.util.Help.requestDispatcher;
 import static com.github.erfan_davoodi_nasr_hw10_maktab117.util.ValidatorProvider.getValidator;
 
 
@@ -51,16 +52,27 @@ public class SignUpServlet extends HttpServlet {
                 session.setAttribute("firstName", save.getFirstname());
                 session.setAttribute("lastName", save.getLastName());
                 session.setAttribute("phoneNumber", save.getPhoneNumber());
-                req.setAttribute("message", "user successfully signed up");
-                req.setAttribute("salam", "salammmm");
-                req.getRequestDispatcher("/index.jsp").forward(req, resp);
+                requestDispatcher(
+                        "/index.jsp",
+                        "message",
+                        "user successfully signed up",
+                        req,
+                        resp);
             } catch (Exception e) {
-                req.setAttribute("message", "there is some problem to signing you up");
-                req.getRequestDispatcher("/signup.jsp").forward(req, resp);
+                requestDispatcher(
+                        "/signup.jsp",
+                        "message",
+                        "there is some problem to signing you up",
+                        req,
+                        resp);
             }
         } else {
-            req.setAttribute("message", problems);
-            req.getRequestDispatcher("/signup.jsp").forward(req, resp);
+            requestDispatcher(
+                    "/signup.jsp",
+                    "message",
+                    problems,
+                    req,
+                    resp);
         }
     }
 }
