@@ -5,6 +5,7 @@ import com.github.erfan_davoodi_nasr_hw10_maktab117.model.User;
 import com.github.erfan_davoodi_nasr_hw10_maktab117.model.dto.SaveUserRequest;
 import com.github.erfan_davoodi_nasr_hw10_maktab117.util.ApplicationContext;
 import lombok.SneakyThrows;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +52,7 @@ public class SignUpServlet extends HttpServlet {
                 session.setAttribute("lastName", save.getLastName());
                 session.setAttribute("phoneNumber", save.getPhoneNumber());
                 req.setAttribute("message", "user successfully signed up");
-                req.setAttribute("salam","salammmm");
+                req.setAttribute("salam", "salammmm");
                 req.getRequestDispatcher("/index.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", "there is some problem to signing you up");

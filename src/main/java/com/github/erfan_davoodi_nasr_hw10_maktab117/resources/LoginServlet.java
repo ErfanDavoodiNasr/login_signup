@@ -4,6 +4,7 @@ import com.github.erfan_davoodi_nasr_hw10_maktab117.api.SMS;
 import com.github.erfan_davoodi_nasr_hw10_maktab117.model.User;
 import com.github.erfan_davoodi_nasr_hw10_maktab117.model.dto.LoginUserRequest;
 import com.github.erfan_davoodi_nasr_hw10_maktab117.util.ApplicationContext;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +37,7 @@ public class LoginServlet extends HttpServlet {
             req.getRequestDispatcher("/index.jsp").forward(req, resp);
         } else {
             req.setAttribute("message", "you entered wrong code");
-            req.getRequestDispatcher("/verify.jsp").forward(req,resp);
+            req.getRequestDispatcher("/verify.jsp").forward(req, resp);
         }
     }
 
@@ -83,7 +84,7 @@ public class LoginServlet extends HttpServlet {
             sendCodeAction(req, resp);
         } else if ("verifyCode".equals(action)) {
             verifyCodeAction(req, resp);
-        }else {
+        } else {
             req.setAttribute("message", "bad request");
         }
     }

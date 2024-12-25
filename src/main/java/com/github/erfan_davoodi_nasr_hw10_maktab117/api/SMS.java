@@ -1,44 +1,47 @@
 package com.github.erfan_davoodi_nasr_hw10_maktab117.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import lombok.Builder;
+import lombok.Data;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Map;
 import java.util.Random;
 
 public class SMS {
-    private static final String API_KEY = null;
-    private static final Integer TEMPLATE_ID = null;
-    private static final String API_URL = null;
     private static Random random;
+    private static Gson gson = new Gson();
 
     public static String[] sendSms(String phoneNumber) {
         String randomCode = generateRandomCode();
-        HttpResponse<String> response = null;
-        try {
-            Map<String, Object> requestBody = Map.of(
-                    "mobile", phoneNumber,
-                    "templateId", TEMPLATE_ID,
-                    "parameters", new Map[]{Map.of("name", "CODE", "value", randomCode)}
-            );
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonRequestBody = objectMapper.writeValueAsString(requestBody);
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
+        try (HttpClient client = HttpClient.newHttpClient()) {
+
+            Parameter[] parameter = {new Parameter("Code", randomCode)};
+            BodyRequest bodyRequest = BodyRequest.builder()
+                    .parameters(parameter)
+                    .mobile(phoneNumber)
+                    .templateId(TEMPLATE_ID)
+                    .build();
+
+            HttpRequest req = HttpRequest.newBuilder()
                     .uri(URI.create(API_URL))
+                    .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(bodyRequest)))
                     .header("Content-Type", "application/json")
                     .header("Accept", "text/plain")
                     .header("x-api-key", API_KEY)
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonRequestBody))
                     .build();
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            try {
+                HttpResponse<String> resp = client.send(req,
+                        HttpResponse.BodyHandlers.ofString());
+                ResponseBody responseBody = gson.fromJson(resp.body(), ResponseBody.class);
+                return new String[]{randomCode, responseBody.getMessage()};
+            } catch (Exception e) {
+                return null;
+            }
         }
-        return new String[]{randomCode, String.valueOf(response.statusCode()), response.body()};
     }
 
     private static synchronized String generateRandomCode() {
@@ -47,5 +50,31 @@ public class SMS {
         }
 
         return String.format("%06d", random.nextInt(1_000_000));
+    }
+
+    @Data
+    @Builder
+    public static class BodyRequest {
+        private String mobile;
+        private Integer templateId;
+        private Parameter[] parameters;
+    }
+
+    @Builder
+    public static class Parameter {
+        private String name;
+        private String value;
+
+        public Parameter(String name, String value) {
+            this.name = name;
+            this.value = value;
+        }
+    }
+
+    @Data
+    @Builder
+    public static class ResponseBody {
+        private Integer status;
+        private String message;
     }
 }

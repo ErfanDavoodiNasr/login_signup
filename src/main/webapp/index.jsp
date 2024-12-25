@@ -86,15 +86,20 @@
 </head>
 <body>
 <header>
-    <h1>Welcome <%= session.getAttribute("firstName") %></h1>
+    <h1>Welcome <%= session.getAttribute("firstName") %>
+    </h1>
 </header>
 
 <div class="hero">
     <div class="info">
-        <p>ID: <%= session.getAttribute("id") %></p>
-        <p>First Name: <%= session.getAttribute("firstName") %></p>
-        <p>Last Name: <%= session.getAttribute("lastName") %></p>
-        <p>Phone: <%= session.getAttribute("phoneNumber") %></p>
+        <p>ID: <%= session.getAttribute("id") %>
+        </p>
+        <p>First Name: <%= session.getAttribute("firstName") %>
+        </p>
+        <p>Last Name: <%= session.getAttribute("lastName") %>
+        </p>
+        <p>Phone: <%= session.getAttribute("phoneNumber") %>
+        </p>
     </div>
 </div>
 
