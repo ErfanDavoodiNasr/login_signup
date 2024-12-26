@@ -1,6 +1,7 @@
 package com.github.erfan_davoodi_nasr_hw10_maktab117.resources;
 
 
+import com.github.erfan_davoodi_nasr_hw10_maktab117.exception.NotUniquePhoneNumberException;
 import com.github.erfan_davoodi_nasr_hw10_maktab117.model.User;
 import com.github.erfan_davoodi_nasr_hw10_maktab117.model.dto.SaveUserRequest;
 import com.github.erfan_davoodi_nasr_hw10_maktab117.util.ApplicationContext;
@@ -56,6 +57,13 @@ public class SignUpServlet extends HttpServlet {
                         "/index.jsp",
                         "message",
                         "user successfully signed up",
+                        req,
+                        resp);
+            } catch (NotUniquePhoneNumberException e) {
+                requestDispatcher(
+                        "/signup.jsp",
+                        "message",
+                        "your phone number is not unique!",
                         req,
                         resp);
             } catch (Exception e) {

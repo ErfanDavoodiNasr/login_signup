@@ -1,6 +1,8 @@
-package com.github.erfan_davoodi_nasr_hw10_maktab117.repository;
+package com.github.erfan_davoodi_nasr_hw10_maktab117.repository.impl;
 
+import com.github.erfan_davoodi_nasr_hw10_maktab117.exception.NotUniquePhoneNumberException;
 import com.github.erfan_davoodi_nasr_hw10_maktab117.model.User;
+import com.github.erfan_davoodi_nasr_hw10_maktab117.repository.UserRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -22,6 +24,7 @@ public class UserRepositoryImpl implements UserRepository {
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
+            throw new NotUniquePhoneNumberException("entity info should be unique");
         } finally {
             em.close();
         }

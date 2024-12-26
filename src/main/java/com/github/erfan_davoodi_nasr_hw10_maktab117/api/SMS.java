@@ -8,7 +8,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Random;
 
 import static com.github.erfan_davoodi_nasr_hw10_maktab117.util.Help.generateRandomCode;
 import static com.github.erfan_davoodi_nasr_hw10_maktab117.util.Help.getGson;

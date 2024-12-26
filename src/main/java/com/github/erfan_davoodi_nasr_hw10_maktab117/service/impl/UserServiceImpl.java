@@ -1,9 +1,10 @@
-package com.github.erfan_davoodi_nasr_hw10_maktab117.service;
+package com.github.erfan_davoodi_nasr_hw10_maktab117.service.impl;
 
 import com.github.erfan_davoodi_nasr_hw10_maktab117.model.User;
 import com.github.erfan_davoodi_nasr_hw10_maktab117.model.dto.LoginUserRequest;
 import com.github.erfan_davoodi_nasr_hw10_maktab117.model.dto.SaveUserRequest;
 import com.github.erfan_davoodi_nasr_hw10_maktab117.repository.UserRepository;
+import com.github.erfan_davoodi_nasr_hw10_maktab117.service.UserService;
 
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
